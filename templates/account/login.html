@@ -1,0 +1,83 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+    *{font-size: 50px;}
+    .a-ri8 {
+        display: block;
+        position:   static;
+        text-align: center;
+        margin-top: 20px;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+    .a-form .a-email {
+    font-size: 50px;
+  }
+
+  .container {
+  text-align: center;
+}
+
+.a-form {
+  display: inline-block; 
+  margin: 0 auto; 
+  float: none; 
+}
+</style>
+<head >
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+    <link rel="shortcut icon" href="./images/fb.ico" type="image/x-icon">
+</head>
+        <header style="width: 50%;">
+            
+        </header>
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+            
+        <p>{% blocktrans with site.name as site_name %}Please sign in with one
+            of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+            
+            {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+            {% include "socialaccount/snippets/login_extra.html" %}
+            {% endif %}
+<div>
+
+    <div class="form" style="text-align: center;">
+            <form class="a-form" method="POST" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                <div id="div_id_login" class="form-group"> <label for="id_login" class=" requiredField">
+
+                    <input type="text" id="username" class="a-email" name="login" placeholder="ユーザーネーム" autocomplete="email" maxlength="150" class="textinput textInput form-control" required id="id_login"> <div id="div_id_password" class="form"> <label for="id_password" class=" requiredField">
+                        <input type="password" id="Password" class="a-pss" name="password" placeholder="パスワード" class="textinput textInput form-control" required id="id_password"/> </div> </div> <div class="form-group"> 
+                            <input type="submit" class="a-sub" value="ログイン" />
+                        </label>
+                
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+          
+                <a class="a-link" href="{% url 'account_reset_password' %} " style="border-bottom: 1px solid gray">{% trans "パスワード忘れ?" %}</a>
+                <hr class="a-hr">
+                <a href="{{ signup_url }}" style="font-size: 20px; margin-top: -30px; " value="Create New Account" class="a-but" ">新規登録</a>
+            </form>         
+        </div>
+    </div>
+
+        <div class="create-page" style="margin-top: 50px;">
+           </b> 有名人、バンド、企業の <a href="" class="a-href" style="font-size: 16px; text-align: center;">{% trans "ページを作成する。" %}</a>
+        </div>
+    </div>
+
+{% endblock %}

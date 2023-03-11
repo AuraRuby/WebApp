@@ -1,0 +1,29 @@
+{% extends 'landing/base.html' %}
+{% block content %}
+{% include 'landing/navbar.html' %}
+
+  <style>
+    *{
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.4;
+    }
+    
+  </style>
+  <body>
+    <section class="bg" >
+      <h2 >Social Networkで友だちや周りの世界とつながろう。 </h2>
+    </section>
+    <section class="cta" >
+      <h3>今すぐSocial Networkに参加する</h3>
+      <a href="{% url 'account_signup' %}">登録</a>
+      <a href="{% url 'account_login' %}">ログイン</a>
+      </section>
+    </body>
+  </section>
+      <footer>
+      <section class="footer">
+        <div class="footer">
+        </section>
+      </footer>
+{% endblock content %}

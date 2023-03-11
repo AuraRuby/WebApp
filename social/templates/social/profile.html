@@ -1,0 +1,172 @@
+{% extends 'social/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    * {
+        box-sizing: border-box;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+
+    body {
+        background-color: #dadada;
+    }
+</style>
+
+<body>
+    <header>
+        <div class="header-center mx-auto">
+            <i class="fa-solid fa-house"></i>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'profile' user.profile.pk %}">プロフィール</a>
+            <a href="{% url 'account_logout' %}">ログアウト</a>
+        </div>
+    </header>
+    <main>
+        <div class="left-column">
+            <div class="following">
+                <a href="{% url 'post-list' %}" class="btn btn-dark">⇦ホームに戻る</a>
+            </div>
+        </div>
+
+        <div class="center-column">
+            <div class="post">
+                <div class="card" style="border-radius: 30px;">
+
+                    <img src="{{ profile.picture.url }}" alt="Profile picture" class="rounded-circle"
+                        style="width: 75px; height: 75px" />
+                    {% if profile.name %}
+                    <h3>{{ profile.name }}
+                        <span>
+                            {% if request.user == user %}
+                            <a href="{% url 'profile-edit' profile.pk %}" style="color:#333" class="fa fa-edit"></a>
+                            {% endif %}
+                        </span>
+                        {% else %}
+                        <h3>{{ user.username }}
+                            <span>
+                                {% if request.user == user %}
+                                <a href="{% url 'profile-edit' profile.pk %}" style="color:#333" class="fa fa-edit"></a>
+                                {% endif %}
+                            </span>
+                            {% endif %}
+                        </h3>
+
+
+                        {% if profile.location %}
+                        <p>{{ profile.location }}</p>
+                        {% endif %}
+
+                        {% if profile.birth_date %}
+                        <p>{{ profile.birth_date }}</p>
+                        {% endif %}
+
+                        {% if profile.bio %}
+                        <p>{{ profile.bio|linebreaksbr }}</p>
+                        {% endif %}
+                </div>
+                <!-- Post -->
+
+                <div class="post-header">
+                    {% for post in posts %}
+                    <div class="post">
+                        <div class="post-header">
+                            <img src="{{ profile.picture.url }} " alt="Profile picture" />
+                            <div class="container">
+                                <div class="row justify-content-left mt-3">
+                                    <div class="col-md-500 col-sm-50  border-bottom">
+                                        <strong>{{ post.author }}: </strong>{{ post.created_on }}
+                                        {% if request.user == post.author %}
+                                        <div style="display:flex ;float: right;">
+                                            <a href="{% url 'post-edit' post.pk %}" style="color: #333;"><i
+                                                    class="fa fa-edit"></i></a>
+                                            <a href="{% url 'post-delete' post.pk %}" style="color: #333;"><i
+                                                    class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-content">
+                            {% csrf_token %}
+                            {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="postimage"
+                                style="max-width: 100%; height: auto; border-radius: 20px;">
+                            {% endif %}
+                            <p>{{ post.body|linebreaksbr }}</p>
+                        </div>
+
+                        <div class="post-info" style="justify-content: space-between;">
+                            {% csrf_token %}
+                            <span class="comments">{{ post.likes.all.count }} いいね！</span>
+                            <!-- <span class="likes">{{ post.dislikes.all.count }} dislikes</span> -->
+                            <span class="comments">コメント{{ post.comments.count }} 件</span>
+                        </div>
+                        <div class="post-actions">
+                            <div class="post-action">
+                                <form method="POST" action="{% url 'like' post.pk %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                    <button style="border: none; box-shadow: none; background-color: transparent;"
+                                        type="submit"><i class="far fa-thumbs-up"
+                                            style="color: blue;"><span>いいね！</span></i>
+                                    </button>
+                                    {% csrf_token %}
+                                    <a href="{% url 'post-detail' post.pk %}" style="text-decoration: none;">
+                                        <i class="far fa-comment"></i>
+                                        <span>コメントする</span>
+                                    </a>
+                                </form>
+                            </div>
+                        </div>
+
+                        {% for comment in post.comments.all %}
+                        <div class="comment-container">
+                            <div class="comment-header" style="display: flex;">
+                                <img src="{{ comment.author.profile.picture.url }}" alt="Profile picture" />
+                                <div class="comment-header-info">
+                                    <span>
+                                        <h4><a style="text-decoration: none;" class="text-primary"
+                                                href="{% url 'profile' comment.author.profile.pk %}">{{ comment.author  }}</a>
+                                            <!-- <p>{{ comment.created_on|date:'F d, Y' }}</p> -->
+                                            <p class="ml-2">{{ comment.comment|linebreaks }}
+                                                {% if request.user == comment.author %}
+                                                <span class="comment-header-actions">
+                                                    <a href="{% url 'comment-delete' post.pk comment.pk %}"><i
+                                                            class="fas fa-trash"></i></a>
+                                            </p>
+                                    </span>
+                                    </span>
+                                    <div class="comment-content">
+                                    </div>
+                                    </h4>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+            </div>
+
+        </div>
+        </div>
+        </div>
+        </div>
+    </main>
+</body>
+<footer style="background-color: #2d97dd;">
+    <p>WebApp</p>
+</footer>
+{% endblock content %}

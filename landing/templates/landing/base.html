@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <style>
+    * {
+  box-sizing: border-box;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #dadada;
+}
+
+.header {
+  background-color: #FF6961;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+.header h1 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.header a:hover {
+  text-decoration: underline;
+}
+
+.bg {
+  /* background-image: url('bg-background.jpg'); */
+  background-size: cover;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg h2 {
+  margin: 0;
+  color: #ff7a7a;
+  text-shadow: 1px 1px #333;
+}
+
+.main {
+  padding: 10px;
+}
+
+.featured {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feature {
+  width: 33.33%;
+  text-align: center;
+}
+
+.feature h3 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.cta {
+  color: #ff7a7a;
+  text-align: center;
+  padding: 10px;
+  height: 412px;
+
+}
+
+.cta h3 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.cta a {
+  color: #d3d3d3;
+  text-decoration: none;
+  padding: 10px 20px;
+  background-color: #333;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.cta a:hover {
+  background-color: #ff7a7a;
+  color: #333;
+}
+.footer {
+  background-color: #cc3333;
+  color: cc3333;
+  bottom: 0;
+  justify-content: center;
+  padding: 5px;
+}
+
+header {
+  background-color: #2d97dd;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.header-center img {
+  width: 100%;
+  margin-left: 150%;
+
+}
+
+.header-right a {
+  justify-content: right;
+  color: white;
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+input[type="text"] {
+  border: none;
+  padding: 5px 10px;
+  width: 300px;
+}
+
+button[type="submit"] {
+  border: none;
+  color: white;
+  padding: 5px 10px;
+}
+
+/* post list */
+
+main {
+  display: flex;
+  margin: 20px;
+}
+.left-column{
+  width: 20%;
+
+}
+.center-column
+{
+  width: 50%;
+}
+.right-column {
+  width: 50%;
+}
+.left-column
+{
+  width: 30%;
+  
+}
+.right-column {
+  width: 30%;
+}
+
+.news-post{
+  margin: 10px;
+}
+
+
+.suggested-friends,
+.group,
+.following {
+  background-color: #fff;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 20px;
+}
+
+/* post */
+
+.post {
+  width: 100%;
+  margin: 10px 0;
+  background-color: #fff;
+  color: #333;
+  text-align: left;
+  padding: 10px;
+  border-radius: 20px;
+
+}
+
+
+.post {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.post img {
+  border-radius: 50%;
+  height: 40px;
+  margin-right: 10px;
+  width: 40px;
+}
+.post-info {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #606770;
+  margin-bottom: 8px;
+}
+
+.post-info span {
+  margin-right: 16px;
+}
+
+.post-info span.likes {
+  color: #1877f2;
+  font-weight: bold;
+}
+
+.post-info span.comments {
+  color: #8e8e8e;
+}
+
+.post-header {
+
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.post-content {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #f0f2f5;
+  border-radius: 0.5rem;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.post-actions p {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.comment-container {
+  margin-bottom: 10px;
+}
+
+.comment-container p {
+  margin-bottom: 5px;
+}
+
+.comment-container strong {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.comment-container a {
+  margin-left: 10px;
+}
+
+.comment-form-container {
+  display: flex;
+  align-items: center;
+}
+
+.comment-form {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.add-comment-btn {
+  flex-shrink: 0;
+}
+
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.post-header img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.post-content {
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+
+}
+.post-content p {
+  background-color: #fff;
+
+}
+.post-content img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.post-actions {
+  display: flex;
+  /* justify-content: space-between; */
+  width: 100%;
+}
+.post-form {
+  /* background-color: rgb(192 192 192 / 50%); */
+  border-radius: 30px;
+  
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); */
+  padding: 5px;
+}
+
+.post-form textarea {
+  width: 100%;
+  border: none;
+  font-size: 18px;
+  padding: 10px;
+  box-sizing: border-box;
+  resize: none;
+  outline: none;
+}
+
+.post-form hr {
+  margin: 10px 0;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.post-form button {
+  background-color: #4267B2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 80%;
+}
+
+.post-form button:hover {
+  background-color: #385899;
+}
+
+
+  .comment-container {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fff;
+  max-height: 200px;
+  overflow: auto;
+  border-radius: 30px;
+}
+
+
+
+h2 {
+  color: #cc3333;
+}
+
+ul li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+ul li p{
+margin-top: 10px;}
+
+ul li img {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+  margin-right: 10px;
+}
+
+footer {
+  background-color: #cc3333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.form-control {
+  white-space: pre-wrap;
+}
+  </style>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet "
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <!-- {% load static %} -->
+
+    <script
+      src="https://kit.fontawesome.com/5853754453.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>WebApp</title>
+  </head>
+  <body>
+
+    {% block content %} {% endblock content %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,233 @@
+{% extends 'social/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- <link rel="stylesheet" type="text/css" href='static/style.css'> -->
+<style>
+  * {
+    box-sizing: border-box;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  body {
+    background-color: #dadada;
+
+  }
+
+  .comment-form {
+    border-radius: 60px;
+  }
+</style>
+
+<!-- <head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+</head> -->
+
+<body>
+  <header>
+    <div class="header-center mx-auto">
+      <i class="fa-solid fa-house"></i>
+    </div>
+    <div class="header-right">
+
+      <a href="{% url 'profile' user.profile.pk %}">プロフィール</a>
+      <a href="{% url 'account_logout' %}">ログアウト</a>
+    </div>
+  </header>
+  <main>
+    <div class="left-column">
+      <div class="following">
+        <h2>フォロー中</h2>
+
+        {% if following %}
+        <ul class="list-unstyled">
+          {% for user in request.user.following.all %}
+          <ul>
+            <li>
+              <img src="{{ user.following.profile.picture.url }}" alt="Profile picture">
+              <p><a style="text-decoration: none;" class="text-primary" href="{% url 'profile' user.following.id %}"> {{  user }}
+                </a></h4>
+              <form action="{% url 'unfollow' user_id=user.id %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <button type="submit" class="btn btn-primary btn-sm" style="margin-left: 20px; background-color: red;">フォロー解除</button>
+              </form>
+            </li>
+          </ul>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+
+
+
+    </div>
+    </div>
+    <div class="center-column">
+      <div class="news-post">
+        <div class="post-header">
+
+          <img src="{{ user.profile.picture.url }}" alt="Profile picture" />
+          <button type="post-form" class="post-form" name="post-text"
+            style="text-align: left;width: 80%; font-size: 1rem; height: 20%; " data-bs-toggle="modal"
+            data-bs-target="#modalId">
+            {{ user }}さん、その気持ち、シェアしましょう！
+          </button>
+          <!-- Modal Body -->
+          <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+          <form method="post" enctype="multipart/form-data">
+            <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+              role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" style="text-align: center;" id="modalTitleId">投稿</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    <button type="submit" class="btn btn-primary" style="font-size: 21px; padding: 7.5px 15px;" >投稿</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        </form>
+
+
+
+        {% for post in post_list %}
+        <div class="post">
+          <div class="post-header">
+            <img src="{{ post.author.profile.picture.url }}" alt="Profile picture" />
+            <div class="post-header-info" style="display: contents;">
+              <div>
+                <h4>{{ post.author }}</h4>
+                <span>{{ post.created_on}}</span>
+              </div>
+              {% if request.user == post.author %}
+              <span>
+
+                <div class="post-header-actions" style="display:flex ;float: right;">
+                  <a href="{% url 'post-edit' post.pk %}"><i class="fas fa-edit"></i></a>
+                  <a href="{% url 'post-delete' post.pk %}"><i class="fas fa-trash"></i></a>
+                </div>
+              </span>
+              {% endif %}
+
+            </div>
+          </div>
+          <div class="post-content">
+                {% csrf_token %}
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="postimage" style="max-width: 100%; height: auto; border-radius: 20px">
+                {% endif %}
+                <p>{{ post.body|linebreaks }}</p>
+          </div>
+          <div class="post-info" style="justify-content: space-between;">
+                {% csrf_token %}
+                <span class="comments">{{ post.likes.all.count }} いいね！</span>
+                <!-- <span class="likes">{{ post.dislikes.all.count }} dislikes</span> -->
+            <span class="comments">コメント{{ post.comments.count }} 件</span>
+          </div>
+          <div class="post-actions">
+            <div class="post-action">
+              <form method="POST" action="{% url 'like' post.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button style="border: none; box-shadow: none; background-color: transparent;" type="submit"><i class="far fa-thumbs-up" style="color: blue;"><span>いいね！</span></i>
+                </button>
+              </form>
+            </div>
+            <!-- <form method="POST" action="{% url 'dislike' post.pk %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <button><i class="far fa-thumbs-down"></i>
+              </button>
+            </form> -->
+            <div class="post-action">
+              {% csrf_token %}
+              <a href="{% url 'post-detail' post.pk %}" style="text-decoration: none;">
+                <i class="far fa-comment"></i>
+                <span>コメントする</span>
+              </a>
+            </div>
+          </div>
+          {% for comment in post.comments.all %}
+          <div class="comment-container">
+            <div class="comment-header" style="display: flex;">
+              <img src="{{ comment.author.profile.picture.url }}" alt="Profile picture" />
+              <div class="comment-header-info">
+                <span>
+                  <h4><a style="text-decoration: none;" class="text-primary"
+                      href="{% url 'profile' comment.author.profile.pk %}">{{ comment.author }}</a>
+                    <!-- <p>{{ comment.created_on|date:'F d, Y' }}</p> -->
+                    <p class="ml-2">{{ comment.comment|linebreaks }}
+                      {% if request.user == comment.author %}
+                      <span class="comment-header-actions">
+                        <a href="{% url 'comment-delete' post.pk comment.pk %}"><i class="fas fa-trash"></i></a>
+                    </p>
+                </span>
+                </span>
+                <div class="comment-content">
+                </div>
+                </h4>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          <div class="comment-form-container">
+            <form method="POST" class="comment-form">
+              {% csrf_token %}
+              <span>{{ comment_form }}
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <button type="submit" class="btn btn-primary add-comment-btn mb-3">コメントする</button></span>
+            </form>
+          </div>
+          <br>
+
+
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    </div>
+    <!-- Right column      -->
+    <div class="right-column">
+      <div class="suggested-friends">
+        <h2>おすすめユーザー</h2>
+        {% for user in users %}
+        {% if user != request.user and user not in following %}
+        <ul>
+          <li>
+            <img src="{{ user.profile.picture.url }}" alt="Profile picture">
+            <p><a style="text-decoration: none;" class="text-primary" href="{% url 'profile' user.pk %}"> {{ user }}
+              </a></h4>
+            <form action="{% url 'follow' %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <input type="hidden" name="following" value="{{ user.id }}">
+              <button type="submit" class="btn btn-primary btn-sm" style="margin-left: 20px;">フォロー</button>
+            </form>
+          </li>
+        </ul>
+        {% endif %}
+        {% endfor %}
+
+
+
+      </div>
+  </main>
+</body>
+<footer style="background-color: #2d97dd;">
+  <p>WebApp</p>
+</footer>
+{% endblock content %}

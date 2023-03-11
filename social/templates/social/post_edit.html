@@ -1,0 +1,70 @@
+{% extends 'social/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+  * {
+    box-sizing: border-box;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  body {
+    background-color: #dadada;
+  }
+</style>
+
+<body>
+  <header>
+    <div class="header-center mx-auto">
+      <i class="fa-solid fa-house"></i>
+    </div>
+    <div class="header-right">
+      <a href="{% url 'profile' user.profile.pk %}">プロフィール</a>
+      <a href="{% url 'account_logout' %}">ログアウト</a>
+    </div>
+  </header>
+  <main>
+    <div class="left-column">
+      <div class="following">
+        <a href="{% url 'post-list' %}" class="btn btn-dark">⇦ホームに戻る</a>
+      </div>
+    </div>
+
+    <div class="center-column">
+      <div class="post">
+
+      <div class="post-header">
+        <img src="{{ post.author.profile.picture.url }}" alt="Profile picture" />
+        <div class="container">
+          <div class="row justify-content-left mt-3">
+            <div class="col-md-700 col-sm-50  border-bottom">
+              <p>
+              <strong>{{ post.author }}: </strong>{{ post.created_on }}
+              {% if request.user == post.author %}
+              <span style="display:flex ;float: right;">
+                <a href="{% url 'post-delete' post.pk %}" style="color: #333;"><i class="fa-solid fa-trash"></i></a>
+              </span>
+              {% endif %}
+            </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center mt- 3 mb-5">
+        <div class="border-botton" style="margin-bottom: 20px">
+          <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form | crispy }}
+              <div class="d-grid grap-2">
+              <button class="btn btn-success mt-3">編集する</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      </div>
+      </div>
+    <!-- Right column      -->
+  <p>WebApp</p>
+</footer>
+{% endblock content %}
